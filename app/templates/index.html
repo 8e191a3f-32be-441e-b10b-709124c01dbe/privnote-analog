@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+    <h1>Welcome, this is an analogue privnote without logs :)</h1>
+    <form action="/makenote" method="post">
+        {% csrf_token %}
+        <textarea name="text" id="" cols="30" rows="10" placeholder="Put here some important message" required></textarea><br>
+        <input type="submit">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <p style="color: red">{{ message }}</p>
+                {% endif %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <p style="color: green">All ok, your link to privnote</p><textarea cols="36" rows="1">{{ request.get_host }}{% url 'app-views-shownot' message %}</textarea><br>
+                    <p>Share this link to your destination for him see your message.</p>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </form>
+    <p>Send notes that will self-destruct after reading.</p>
+</body>
+</html>
